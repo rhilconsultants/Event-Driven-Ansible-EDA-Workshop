@@ -133,9 +133,9 @@ A well-organized Git repository is crucial for a scalable and maintainable autom
             - alert: NodeHealthCheckFailed
               annotations:
                 summary: event driven poc
+              # This query makes the alert fire every minute and adds "instance" label
               expr: |
-                max(node_disk_info{instance=~"<worker-name>"}) by(instance)
-              for: 10s
+                absent(nonexsist{instance="<worker-name>"})*time()%60  < 30
               labels:
                 severity: custom
         ```
